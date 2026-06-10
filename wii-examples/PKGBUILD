@@ -2,7 +2,7 @@
 # Maintainer: Dave Murphy <davem@devkitpro.org>
 
 pkgname=('wii-examples')
-pkgver=20260125
+pkgver=20260510
 pkgrel=1
 pkgdesc="Nintendo Wii example code."
 arch=('any')
@@ -20,4 +20,4 @@ package() {
   cp -R $srcdir/${pkgname}-${pkgver}/* "$pkgdir"/opt/devkitpro/examples/wii  
 }
 
-sha256sums=('9490170c9595dacf5f13fd8070b36414bbe1af4792e47a37d199ec34b90b99f4')
+sha256sums=('ab1726b9408a500a89e39990d5f21b4cc2c8307fe136eea0767519eb8b8edefb')
