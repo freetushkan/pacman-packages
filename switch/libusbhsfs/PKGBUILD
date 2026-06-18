@@ -1,0 +1,39 @@
+#
+
+pkgname=switch-libusbhsfs
+pkgver=0.2.7
+pkgrel=1
+pkgdesc="USB Mass Storage Class Host + Filesystem Mounter static library for Nintendo Switch homebrew applications"
+arch=('any')
+url="https://github.com/DarkMatterCore/libusbhsfs"
+license=('GPL2')
+options=(!strip staticlibs)
+makedepends=('switch-pkg-config' 'dkp-toolchain-vars')
+depends=('switch-ntfs-3g' 'switch-lwext4') 
+source=("libusbhsfs-${pkgver}::https://github.com/DarkMatterCore/libusbhsfs/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('538ae3ebbeb5c66535155be6579c2cb300c6ac9119cbecede4e97a98eb14b0b3')
+
+groups=('switch-portlibs')
+
+prepare() {
+  cd "libusbhsfs-${pkgver}"
+  find source/ -type f -exec sed -i 's|#include <lwext4/|#include <|g' {} +
+}
+
+build() {
+  cd "libusbhsfs-${pkgver}"
+  make BUILD_TYPE=GPL
+}
+
+package() {
+  cd "libusbhsfs-${pkgver}"
+
+  source /opt/devkitpro/switchvars.sh
+
+  install -d "${pkgdir}${PORTLIBS_PREFIX}/include"
+  install -d "${pkgdir}${PORTLIBS_PREFIX}/lib"
+
+  install -m644 include/usbhsfs.h "${pkgdir}${PORTLIBS_PREFIX}/include/"
+  install -m644 lib/libusbhsfs.a "${pkgdir}${PORTLIBS_PREFIX}/lib/"
+  install -m644 lib/libusbhsfsd.a "${pkgdir}${PORTLIBS_PREFIX}/lib/"
+}
